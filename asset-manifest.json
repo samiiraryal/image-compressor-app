@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/image-size-reducer/static/css/main.42ac1a9e.css",
-    "main.js": "/image-size-reducer/static/js/main.213a9bff.js",
-    "static/js/453.c77e1360.chunk.js": "/image-size-reducer/static/js/453.c77e1360.chunk.js",
-    "index.html": "/image-size-reducer/index.html",
-    "main.42ac1a9e.css.map": "/image-size-reducer/static/css/main.42ac1a9e.css.map",
-    "main.213a9bff.js.map": "/image-size-reducer/static/js/main.213a9bff.js.map",
-    "453.c77e1360.chunk.js.map": "/image-size-reducer/static/js/453.c77e1360.chunk.js.map"
+    "main.css": "/image-compressor-app/static/css/main.42ac1a9e.css",
+    "main.js": "/image-compressor-app/static/js/main.641a268d.js",
+    "static/js/453.c77e1360.chunk.js": "/image-compressor-app/static/js/453.c77e1360.chunk.js",
+    "index.html": "/image-compressor-app/index.html",
+    "main.42ac1a9e.css.map": "/image-compressor-app/static/css/main.42ac1a9e.css.map",
+    "main.641a268d.js.map": "/image-compressor-app/static/js/main.641a268d.js.map",
+    "453.c77e1360.chunk.js.map": "/image-compressor-app/static/js/453.c77e1360.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.42ac1a9e.css",
-    "static/js/main.213a9bff.js"
+    "static/js/main.641a268d.js"
   ]
 }
