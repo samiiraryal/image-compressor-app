@@ -6,6 +6,7 @@
   --card-bg: #ffffff;
   --text-primary: #2c3e50;
   --border-color: #e1e4e8;
+  --popup-bg: rgba(0, 0, 0, 0.6);
 }
 
 body {
@@ -73,6 +74,19 @@ h1 {
 
 .dropzone-content small {
   color: #666;
+}
+
+.preview-section {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.uploaded-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-top: 10px;
 }
 
 .error-message {
@@ -165,6 +179,25 @@ h1 {
   background-color: #1976d2;
 }
 
+.compress-button {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background: linear-gradient(45deg, var(--primary), #1976d2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.compress-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+}
+
 .results-container {
   background-color: var(--card-bg);
   border-radius: 8px;
@@ -193,6 +226,11 @@ h1 {
   height: auto;
   border-radius: 4px;
   margin-bottom: 10px;
+  transition: transform 0.3s ease;
+}
+
+.image-container img:hover {
+  transform: scale(1.02);
 }
 
 .image-stats {
@@ -228,6 +266,45 @@ h1 {
   background-color: #1976d2;
 }
 
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--popup-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup {
+  background-color: var(--card-bg);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  text-align: center;
+  max-width: 300px;
+}
+
+.popup p {
+  margin: 0 0 20px 0;
+}
+
+.popup-button {
+  padding: 8px 16px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.popup-button:hover {
+  background-color: #1976d2;
+}
+
 @media (max-width: 768px) {
   .dimension-controls {
     flex-direction: column;
@@ -254,16 +331,8 @@ h1 {
     padding: 20px;
   }
 }
+
 /* Ensure inputs have consistent styling */
 input, select, button {
   font-family: inherit;
-}
-
-/* Add smooth transitions */
-.image-container img {
-  transition: transform 0.3s ease;
-}
-
-.image-container img:hover {
-  transform: scale(1.02);
 }

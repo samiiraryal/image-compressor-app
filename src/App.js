@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import './App.css';
 
+const Popup = ({ message, onClose }) => (
+  <div className="popup-overlay">
+    <div className="popup">
+      <p>{message}</p>
+      <button className="popup-button" onClick={onClose}>OK</button>
+    </div>
+  </div>
+);
+
 const ImageCompressor = () => {
   const [originalFile, setOriginalFile] = useState(null);
   const [originalImage, setOriginalImage] = useState(null);
@@ -9,6 +18,8 @@ const ImageCompressor = () => {
   const [compressedSize, setCompressedSize] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [popupMessage, setPopupMessage] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
   const [dimensions, setDimensions] = useState({ width: null, height: null, aspectRatio: 1 });
   const [options, setOptions] = useState({
     quality: 0.8,
@@ -18,18 +29,29 @@ const ImageCompressor = () => {
     maintainAspectRatio: true,
   });
 
+  const openPopup = (message) => {
+    setPopupMessage(message);
+    setShowPopup(true);
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+    setPopupMessage('');
+  };
+
   const handleFileSelect = (event) => {
     const file = event.target.files?.[0];
     if (!file) return;
     if (!file.type.startsWith('image/')) {
       setError('Please select a valid image file');
+      openPopup('Please select a valid image file');
       return;
     }
     setOriginalFile(file);
     setOriginalSize(file.size);
     const fileUrl = URL.createObjectURL(file);
     setOriginalImage(fileUrl);
-    setCompressedImage(null); // Reset compressed image on new upload
+    setCompressedImage(null);
     setError('');
 
     // Get image dimensions and set initial options
@@ -41,12 +63,14 @@ const ImageCompressor = () => {
       const ratio = w / h;
       setDimensions({ width: w, height: h, aspectRatio: ratio });
       setOptions(prev => ({ ...prev, maxWidth: w, maxHeight: h }));
+      openPopup('Image uploaded successfully!');
     };
   };
 
   const compressImage = async () => {
     if (!originalFile) {
       setError('No image uploaded.');
+      openPopup('No image uploaded.');
       return;
     }
     setLoading(true);
@@ -78,20 +102,19 @@ const ImageCompressor = () => {
       const ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, finalWidth, finalHeight);
 
-      // Create blob using current quality and file type
       const blob = await new Promise((resolve) => {
         canvas.toBlob(resolve, options.fileType, options.quality);
       });
       if (blob) {
-        if (compressedImage) {
-          URL.revokeObjectURL(compressedImage);
-        }
+        if (compressedImage) URL.revokeObjectURL(compressedImage);
         const compressedUrl = URL.createObjectURL(blob);
         setCompressedImage(compressedUrl);
         setCompressedSize(blob.size);
+        openPopup('Image compressed successfully!');
       }
     } catch (err) {
       setError('Failed to compress image. Please try again.');
+      openPopup('Failed to compress image. Please try again.');
     }
     setLoading(false);
   };
@@ -132,7 +155,7 @@ const ImageCompressor = () => {
         <p className="subtitle">Optimize your images with precision control</p>
       </header>
 
-      <div className="dropzone" onClick={() => document.getElementById('fileInput').click()}>
+      <div className="dropzone">
         <input 
           id="fileInput"
           type="file"
@@ -146,7 +169,15 @@ const ImageCompressor = () => {
         </div>
       </div>
 
+      {originalImage && (
+        <div className="preview-section">
+          <h3>Uploaded Image Preview</h3>
+          <img src={originalImage} alt="Uploaded preview" className="uploaded-image" />
+        </div>
+      )}
+
       {error && <div className="error-message">{error}</div>}
+
       {originalImage && (
         <div className="controls-card">
           <div className="controls-header">
@@ -255,6 +286,8 @@ const ImageCompressor = () => {
           </div>
         </div>
       )}
+
+      {showPopup && <Popup message={popupMessage} onClose={closePopup} />}
     </div>
   );
 };
